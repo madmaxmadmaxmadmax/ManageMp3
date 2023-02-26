@@ -1,4 +1,4 @@
-#!/home/madmax/Scripts/Python/env2/bin/python2.7
+#!/data/data/com.termux/files/home/env2/bin/python
 # -*- coding: utf-8 -*-
 #
 #  Copyright 2014 MadMax <madmaxxx@email.it>
@@ -173,8 +173,8 @@ class Artist(object):
 
 class Title(object):
 
-    PATTERNS = (re.compile(" +\((?:[Vv]ersione? +[^ ]*|[Hh]idden +[Tt]rack|.{1,2}|[^\)]*[Tt]akes? +[0-9]{1,2}[^\)]*" +
-                           "|[^\)]*[Rr]emix[^\)]*|[Dd]emo +[^\)]*|[Ee]xtended[^\)]*)\)$"), )
+    PATTERNS = re.compile(" +\((?:[Vv]ersione? +[^ ]*|[Hh]idden +[Tt]rack|.{1,2}|[^\)]*[Tt]akes? +[0-9]{1,2}[^\)]*" +
+                          "|[^\)]*[Rr]emix[^\)]*|[Dd]emo +[^\)]*|[Ee]xtended[^\)]*)\)$"),
 
     def __init__(self, title):
         self._title = title
@@ -290,7 +290,7 @@ class Comment(object):
 
 class Coded(object):
 
-    PATTERNS = (re.compile("^(?:G|RG)$"), )
+    PATTERNS = re.compile("^(?:G|RG)$"),
 
     def __init__(self, coded):
         self._coded = coded
@@ -355,9 +355,14 @@ class FileBanner:
         self.file = os.path.basename(value)
         self.dir = os.path.dirname(value)
 
+    def __nonzero__(self):
+        if self.__class__.PATTERN.match(self.file):
+            return True
+        return False
+
     def result(self):
         _result = ""
-        _match = FileBanner.PATTERN.match(self.file)
+        _match = self.__class__.PATTERN.match(self.file)
         if _match:
             _match = _match.groups()
             if self.dir:
@@ -372,13 +377,13 @@ class FileBanner:
             _result += _match[4]
             return _result
 
-    def move(self):
+    def move(self, check=False):
         _destination = self.result()
         if not _destination:
             return False
         if os.path.isfile(self.value) and not os.path.isfile(_destination):
             print self.value + " => " + _destination
-            shutil.move(self.value, _destination)
+            check or shutil.move(self.value, _destination)
             return True
         return False
 
@@ -390,8 +395,15 @@ def normalize(fileslist):
 
 
 def main():
+   _return = 0
+   _arg = False
    for _ in (sys.argv[1:]):
-       FileBanner(_).move()
+       if _ == "--check":
+           _arg = True
+           continue
+       if not FileBanner(_).move(_arg):
+           _return = 127
+   exit(_return)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/home/env2/bin/python2.7
+#!/data/data/com.termux/files/home/env2/bin/python
 # -*- coding: utf-8 -*-
 #
 #  Copyright 2014 MadMax <madmaxxx@email.it>
@@ -22,7 +22,7 @@ __author__ = 'MadMax'
 __version__ = '1.0'
 __license__ = 'Public Domain'
 
-ARCHIVE = "/media/madmax/Dati/Musica"
+ARCHIVE = "/storage/emulated/0/Download"
 CODING = "UTF-8"
 COMMENT = "/\\/\\ad/\\/\\ax Encoded"
 ENCODING = 3

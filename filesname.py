@@ -1,4 +1,4 @@
-#!/home/madmax/Scripts/Python/env2/bin/python2.7
+#!/data/data/com.termux/files/home/env2/bin/python2.7
 # -*- coding: utf-8 -*-
 #
 #  Copyright 2014 MadMax <madmaxxx@email.it>
@@ -102,9 +102,19 @@ class Purge(object):
 
 
 class Directory(Parser):
+
+    ARTICLES = ("the ", "i ")
+
     def __init__(self, values, root, mode):
         super(Directory, self).__init__(values, mode)
         self._root = root
+
+    def articles(self):
+        for _article in self.__class__.ARTICLES:
+            _len = len(_article)
+            if self._parser[0][0:_len].lower() == _article:
+                self._parser.insert(0, self._parser[0][_len:_len + 1].upper())
+                return True
 
     def name(self):
         if self._name:
@@ -112,8 +122,8 @@ class Directory(Parser):
         try:
             if self._parser[0][:1].isdigit():
                 self._parser.insert(0, "0..9")
-            elif self._parser[0][:4].lower() == "the ":
-                self._parser.insert(0, self._parser[0][4:5].upper())
+            elif self.articles():
+                pass
             else:
                 self._parser.insert(0, self._parser[0][:1].upper())
         except IndexError:
@@ -149,7 +159,7 @@ class CreateList(object):
             if self.is_present():
                 self._filename = Purge(self._filename).add()
             else:
-                self._filelist += ((self._keys, self._filename), )
+                self._filelist += (self._keys, self._filename),
                 break
         return self._filelist
 

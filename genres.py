@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/home/env2/bin/python2.7
+#!/data/data/com.termux/files/home/env2/bin/python
 # -*- coding: utf-8 -*-
 #
 #  Copyright 2014 MadMax <madmaxxx@email.it>

@@ -1,4 +1,4 @@
-#!/home/madmax/Scripts/Python/env2/bin/python2.7
+#!/data/data/com.termux/files/home/env2/bin/python
 # -*- coding: utf-8 -*-
 #
 #  Copyright 2014 MadMax <madmaxxx@email.it>
@@ -23,10 +23,8 @@ __version__ = '1.0'
 __license__ = 'Public Domain'
 
 import re
-import string
 import sys
 import os
-import shutil
 
 CODING = "UTF-8"
 CHARSET = "abcdefghijklmnopqrstuvwxyzàèìòùABCDEFGHIJKLMNOPQRSTUVWXYZÀÈÌÒÙ0123456789 &,()'"
@@ -110,7 +108,8 @@ class Purge:
     PATTERNS = (re.compile("[\[{(]+ *"),
                 re.compile(" *[\])}]+"),
                 re.compile(" *,+ *"),
-                re.compile(unicode("(?:^'?| |\()([a-zàèìòù])", CODING)))
+                re.compile(u"([a-zàèìòù][A-ZÀÈÌÒÙ])"),
+                re.compile(u"(?:^'?| |\()([a-zàèìòù])"))
 
     def __init__(self, value):
         self.value = value
@@ -145,7 +144,8 @@ class Purge:
 
     def title(self):
         self.value = self.value.decode(CODING)
-        self.value = self.__class__.PATTERNS[3].sub(lambda __: __.group(0).upper(), self.value)
+        self.value = self.__class__.PATTERNS[3].sub(lambda __: __.group(0).lower(), self.value)
+        self.value = self.__class__.PATTERNS[4].sub(lambda __: __.group(0).upper(), self.value)
         self.value = self.value.encode(CODING)
         return self.value
 

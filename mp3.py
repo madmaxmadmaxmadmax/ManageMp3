@@ -1,4 +1,4 @@
-#!/home/madmax/Scripts/Python/env2/bin/python2.7
+#!/data/data/com.termux/files/home/env2/bin/python
 # -*- coding: utf-8 -*-
 #
 #  Copyright 2014 MadMax <madmaxxx@email.it>
@@ -63,6 +63,10 @@ class TagMp3(object):
         self._id3 = mutagen.id3.ID3()
         self._mp3 = mutagen.mp3.MP3()
         self._id3.save(self._filename)
+
+    def __nonzero__(self):
+        if self._id3 or self._mp3:
+            return True
 
     def load(self):
         _data = [_.text[0].encode(config.CODING)
@@ -131,26 +135,26 @@ class TagMp3(object):
 def load_tag_mp3(fileslist):
     _fileslist = {}
     if isinstance(fileslist, str):
-        fileslist = (fileslist, )
+        fileslist = fileslist,
     for _ in fileslist:
         _fileslist.update(TagMp3(_).load())
-        print("Load tags from file: {}".format(_))
+        #print("Load tags from file: {}".format(_))
     return _fileslist
 
 
 def load_settings_mp3(fileslist):
     _fileslist = {}
     if isinstance(fileslist, str):
-        fileslist = (fileslist, )
+        fileslist = fileslist,
     for _ in fileslist:
         _fileslist.update(TagMp3(_).settings())
-        print("Load settings from file: {}".format(_))
+        #print("Load settings from file: {}".format(_))
     return _fileslist
 
 
 def delete_tag_mp3(fileslist):
     if isinstance(fileslist, str):
-        fileslist = (fileslist, )
+        fileslist = fileslist,
     for _ in fileslist:
         TagMp3(_).delete()
 
@@ -159,7 +163,7 @@ def save_tag_mp3(fileslist):
     for _ in fileslist.iteritems():
         _tag_mp3 = TagMp3(_[0])
         _tag_mp3.save(_[1])
-        print("Save tags to file: {}".format(_[0]))
+        #print("Save tags to file: {}".format(_[0]))
 
 
 def change_album(filelist, album_type):

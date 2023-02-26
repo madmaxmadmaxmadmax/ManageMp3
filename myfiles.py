@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/home/env2/bin/python2.7
+#!/data/data/com.termux/files/home/env2/bin/python
 # -*- coding: utf-8 -*-
 #
 #  Copyright 2014 MadMax <madmaxxx@email.it>
@@ -77,8 +77,15 @@ class FindDirectories(Find):
 
 
 class FindFiles(Find):
-    def __init__(self, path, pattern=""):
+    def __init__(self, path, pattern):
         super(FindFiles, self).__init__(path, pattern)
+
+    def __nonzero__(self):
+        for _dir_path, _dir_names, _filenames in os.walk(self.path):
+            for _filename in _filenames:
+                if _filename.endswith(self.pattern):
+                    return True
+        return False
 
     def __iter__(self):
         for _dir_path, _dir_names, _filenames in os.walk(self.path):
