@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/home/env2/bin/python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 #  Copyright 2014 MadMax <madmaxxx@email.it>
@@ -26,7 +26,6 @@ import re
 import sys
 import os
 
-CODING = "UTF-8"
 CHARSET = "abcdefghijklmnopqrstuvwxyzàèìòùABCDEFGHIJKLMNOPQRSTUVWXYZÀÈÌÒÙ0123456789 &,()'"
 REPLACEMENTS = (('д', 'a'),
                 ('å', 'a'),
@@ -108,15 +107,15 @@ class Purge:
     PATTERNS = (re.compile("[\[{(]+ *"),
                 re.compile(" *[\])}]+"),
                 re.compile(" *,+ *"),
-                re.compile(u"([a-zàèìòù][A-ZÀÈÌÒÙ])"),
-                re.compile(u"(?:^'?| |\()([a-zàèìòù])"))
+                re.compile("([a-zàèìòùA-ZÀÈÌÒÙ])"),
+                re.compile("(?:^'?| |\()([a-zàèìòù])"))
 
     def __init__(self, value):
         self.value = value
 
     def decode(self):
-        for _index in range(0, len(REPLACEMENTS)):
-            self.value = self.value.replace(REPLACEMENTS[_index][0], REPLACEMENTS[_index][1])
+        for _replace in REPLACEMENTS:
+            self.value = self.value.replace(_replace[0], _replace[1])
         return self.value
 
     def brackets(self):
@@ -126,12 +125,12 @@ class Purge:
 
     def normalize(self):
         _value = ""
-        for _ in self.value.decode(CODING):
-            if _ in CHARSET.decode(CODING):
+        for _ in self.value:
+            if _ in CHARSET:
                 _value += _
             else:
                 _value += " "
-        self.value = _value.encode(CODING)
+        self.value = _value
         return self.value
 
     def commas(self):
@@ -143,16 +142,14 @@ class Purge:
         return self.value
 
     def title(self):
-        self.value = self.value.decode(CODING)
         self.value = self.__class__.PATTERNS[3].sub(lambda __: __.group(0).lower(), self.value)
         self.value = self.__class__.PATTERNS[4].sub(lambda __: __.group(0).upper(), self.value)
-        self.value = self.value.encode(CODING)
         return self.value
 
     def result(self):
         self.decode()
-        self.brackets()
         self.normalize()
+        self.brackets()
         self.commas()
         self.strip()
         self.title()

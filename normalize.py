@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/home/env2/bin/python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 #  Copyright 2014 MadMax <madmaxxx@email.it>
@@ -355,7 +355,7 @@ class FileBanner:
         self.file = os.path.basename(value)
         self.dir = os.path.dirname(value)
 
-    def __nonzero__(self):
+    def __bool__(self):
         if self.__class__.PATTERN.match(self.file):
             return True
         return False
@@ -382,14 +382,14 @@ class FileBanner:
         if not _destination:
             return False
         if os.path.isfile(self.value) and not os.path.isfile(_destination):
-            print self.value + " => " + _destination
+            print(self.value + " => " + _destination)
             check or shutil.move(self.value, _destination)
             return True
         return False
 
 
 def normalize(fileslist):
-    for _keys, _values in fileslist.iteritems():
+    for _keys, _values in fileslist.items():
         fileslist[_keys] = Normalize(*_values).normalize()
     return fileslist
 

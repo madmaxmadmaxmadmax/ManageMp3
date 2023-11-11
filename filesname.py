@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/home/env2/bin/python2.7
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 #  Copyright 2014 MadMax <madmaxxx@email.it>
@@ -37,9 +37,8 @@ TAGS = ("Artist",
         "Coded")
 
 
-class Bone(object):
+class Bone:
     def __init__(self, values, mode):
-        #self._values = [_ if _ else "" for _ in values]
         self._values = values
         self._mode = mode
         self._name = None
@@ -47,7 +46,7 @@ class Bone(object):
 
 class Parser(Bone):
     def __init__(self, values, mode):
-        super(Parser, self).__init__(values, mode)
+        super().__init__(values, mode)
         self._parser = self.parser()
 
     def parser(self):
@@ -73,14 +72,14 @@ class Purge(object):
         self._filename = filename
 
     def extension(self):
-        self._filename += ".{}".format(config.EXT[0])
+        self._filename += f".{config.EXT[0]}"
 
     def purge(self):
         if Purge.PATTERN[0].match(self._filename):
             self._filename = Purge.PATTERN[0].sub("\\1", self._filename)
             self._filename += ")"
             self.extension()
-        if self._filename.endswith("({}).{}".format(config.TYPES[0], config.EXT[0])):
+        if self._filename.endswith(f"({config.TYPES[0]}).{config.EXT[0]}"):
             self._filename = self._filename[:-14]
             self.extension()
         return self._filename
@@ -159,14 +158,15 @@ class CreateList(object):
             if self.is_present():
                 self._filename = Purge(self._filename).add()
             else:
-                self._filelist += (self._keys, self._filename),
+                self._filelist += ((self._keys, self._filename), )
                 break
         return self._filelist
 
 
-def filesname(filelist, root=config.ARCHIVE, (mode_dir, mode_files)=config.MODE_FILES):
+def filesname(filelist, root=config.ARCHIVE, xxx_todo_changeme=config.MODE_FILES):
+    (mode_dir, mode_files) = xxx_todo_changeme
     _filelist = ()
-    for _keys, _values in filelist.iteritems():
+    for _keys, _values in filelist.items():
         _filename = FileName(_values, root, mode_dir, mode_files).name()
         _filelist = CreateList(_keys, _filename, _filelist).make()
     return _filelist

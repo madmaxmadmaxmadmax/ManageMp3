@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/home/env2/bin/python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 #  Copyright 2014 MadMax <madmaxxx@email.it>
@@ -36,20 +36,20 @@ def main():
 
     if options.purge:
         if len(args) == 1:
-            print "Purge {}...".format(args[0])
+            print("Purge {}...".format(args[0]))
             amain.purge(args[0])
 
     if options.archive:
-        print "Archive {}...".format(args[0])
+        print("Archive {}...".format(args[0]))
         if len(args) == 2:
-            print "To {}...".format(args[1])
+            print("To {}...".format(args[1]))
             amain.archive(args[0], args[1])
         if len(args) == 1:
             amain.archive(args[0])
 
     if options.check:
         if len(args) == 1:
-            print "Check {}...".format(args[0])
+            print("Check {}...".format(args[0]))
             if not amain.check(args[0]):
                 exit(1)
 

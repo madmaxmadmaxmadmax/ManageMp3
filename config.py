@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/home/env2/bin/python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 #  Copyright 2014 MadMax <madmaxxx@email.it>
@@ -22,13 +22,13 @@ __author__ = 'MadMax'
 __version__ = '1.0'
 __license__ = 'Public Domain'
 
-ARCHIVE = "/storage/emulated/0/Download"
+ARCHIVE = "/storage/128F-ECD9/Music/"
 CODING = "UTF-8"
 COMMENT = "/\\/\\ad/\\/\\ax Encoded"
 ENCODING = 3
 EXT = ("mp3", "MP3")
 LAME = "/usr/bin/lame"
-MODE_DIR = 0700
+MODE_DIR = 0o700
 MODE_FILES = (("AlbumArtist", "Year-Album", "Disc"), ("Track", "Artist", "Title"))
 SCORE = 90
 SEARCH_LIMIT = 10
